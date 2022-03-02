@@ -8,12 +8,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
 
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @Data
 public class Cliente implements Serializable {
 
@@ -29,9 +36,12 @@ public class Cliente implements Serializable {
 	private char genero;
 	private double altura;
 	private boolean ativo;
-
+	
+	@JsonManagedReference
 	@OneToMany
 	private List<Documento> documento;
+	
+	@JsonManagedReference
 	@OneToMany
 	private List<Endereco> endereco;
 

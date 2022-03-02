@@ -9,9 +9,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.Data;
 
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @Data
 public class Documento implements Serializable {
 
@@ -23,9 +30,10 @@ public class Documento implements Serializable {
 
 	private String tipoDoc;
 	private String numero;
-
+	
+	@JsonBackReference
 	@ManyToOne
-	@JoinColumn(name = "cliente_id , nullable = false")
+	@JoinColumn(name = "cliente_id" , nullable = false)
 	private Cliente cliente;
 
 	public Documento(Long id, String tipoDoc, String numero, Cliente cliente) {
